@@ -26,12 +26,10 @@ use App\Services\CarService;
 class ApiController extends AbstractController
 {
     /**
-     * @param HttpClientInterface $client
      * @param CarService $carService
      */
     public function __construct(
-        private HttpClientInterface $client,
-        private CarService          $carService,
+        private CarService  $carService,
     )
     {
     }
@@ -50,9 +48,8 @@ class ApiController extends AbstractController
     public function handler(Request $request): JsonResponse
     {
         try {
-            $numberCar = 'Т934ВН50'; //json_decode($request->getContent(), true)['number_car'];
+            $numberCar = json_decode($request->getContent(), true)['number_car']; //'Т934ВН50';
             $req = $this->carService->sendNewBaseByNumberCar($numberCar);
-
 
             if (isset($req['info']) && count($req['info'])) {
                  $this->carService->saveNewBaseByNumberCar($req,[
@@ -69,7 +66,6 @@ class ApiController extends AbstractController
                 'info' => $e->getMessage(),
             ], 422);
         }
-
     }
 
 //    /**
