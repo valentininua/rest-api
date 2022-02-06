@@ -4,28 +4,39 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
- * @ORM\Table(name="car")
+ * @ORM\Table(name="log_number_car")
  * @ORM\HasLifecycleCallbacks()
  */
-class Car implements \JsonSerializable {
+class NewBaseByNumberCar implements \JsonSerializable {
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
+     * Входящие данные ( гос номер)
      * @ORM\Column(type="string", length=100)
      *
      */
-    private $name;
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
+    private ?string $numberCar = null;
 
     /**
+     * Входящие данные ( гос номер)
+     * @ORM\Column(type="string", length=100)
+     *
+     */
+    private ?string $ip = null;
+
+
+//    /**
+//     * @ORM\Column(type="text")
+//     */
+//    private $description;
+
+    /**
+     * Дата и время запроса | Дата и время ответа на запрос
      * @ORM\Column(type="datetime")
      */
     private $create_date;
@@ -37,6 +48,7 @@ class Car implements \JsonSerializable {
     {
         return $this->id;
     }
+
     /**
      * @param mixed $id
      */
@@ -44,6 +56,7 @@ class Car implements \JsonSerializable {
     {
         $this->id = $id;
     }
+
     /**
      * @return mixed
      */
@@ -51,6 +64,7 @@ class Car implements \JsonSerializable {
     {
         return $this->name;
     }
+
     /**
      * @param mixed $name
      */
@@ -58,6 +72,7 @@ class Car implements \JsonSerializable {
     {
         $this->name = $name;
     }
+
     /**
      * @return mixed
      */
@@ -65,6 +80,7 @@ class Car implements \JsonSerializable {
     {
         return $this->description;
     }
+
     /**
      * @param mixed $description
      */
@@ -95,9 +111,41 @@ class Car implements \JsonSerializable {
      * @throws \Exception
      * @ORM\PrePersist()
      */
-    public function beforeSave(){
+    public function beforeSave()
+    {
+        $this->create_date = new \DateTime('now', new \DateTimeZone('Europe/Moscow'));
+    }
 
-        $this->create_date = new \DateTime('now', new \DateTimeZone('Africa/Casablanca'));
+    /**
+     * @return string|null
+     */
+    public function getNumberCar(): ?string
+    {
+        return $this->numberCar;
+    }
+
+    /**
+     * @param string|null $numberCar
+     */
+    public function setNumberCar(?string $numberCar): void
+    {
+        $this->numberCar = $numberCar;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIp(): ?string
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param string|null $ip
+     */
+    public function setIp(?string $ip): void
+    {
+        $this->ip = $ip;
     }
 
     /**
@@ -110,8 +158,9 @@ class Car implements \JsonSerializable {
     public function jsonSerialize()
     {
         return [
-            "name" => $this->getName(),
-            "description" => $this->getDescription()
+            "ip" => $this->getIp(),
+            "numberCar" => $this->getNumberCar(),
+
         ];
     }
 }
