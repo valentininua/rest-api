@@ -30,8 +30,8 @@ class ApiController extends AbstractController
      * @param CarService $carService
      */
     public function __construct(
-        public HttpClientInterface $client,
-        public CarService          $carService,
+        private HttpClientInterface $client,
+        private CarService          $carService,
     )
     {
     }
@@ -45,16 +45,23 @@ class ApiController extends AbstractController
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      *
-     * @Route("/getNewBaseByNumberCar", name="all", methods={"POST|GET"})
+     * @Route("/getNewBaseByNumberCar", name="all", methods={"GET","POST"})
      */
     public function handler(Request $request): JsonResponse
     {
         try {
-            return new JsonResponse(
-                    $this->carService->sendNewBaseByNumberCar(
-                        json_decode($request->getContent(), true)['number_car']
-                )
-            );
+            $numberCar = 'Т934ВН50'; //json_decode($request->getContent(), true)['number_car'];
+            $req = $this->carService->sendNewBaseByNumberCar($numberCar);
+
+
+            if (isset($req['info']) && count($req['info'])) {
+                 $this->carService->saveNewBaseByNumberCar($req,[
+                     'ip' => $request->getClientIp(),
+                     'numberCar'=> $numberCar
+                 ]);
+            }
+
+            return new JsonResponse($req);
         } catch (\Exception $e) {
             return new JsonResponse([
                 'status' => 422,

@@ -8,28 +8,25 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Repository\NewBaseByNumberCarRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class CarService
 {
-
-//    /**
-//     * @var ReportRepository
-//     */
-//    private $report;
-//
-//    public function __construct( ReportRepository $report )
-//    {
-//        $this->report = $report;
-//    }
-
     private const SERVER = 'http://135.181.116.15';
 
     /**
+     * @param EntityManagerInterface $entityManager
      * @param HttpClientInterface $client
+     * @param NewBaseByNumberCarRepository $carRepository
      */
     public function __construct(
-        public HttpClientInterface $client,
-    ) {}
+        private EntityManagerInterface       $entityManager,
+        private HttpClientInterface          $client,
+        private NewBaseByNumberCarRepository $carRepository
+    )
+    {
+    }
 
     /**
      * @param string $numberCar
@@ -40,7 +37,7 @@ class CarService
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    public function sendNewBaseByNumberCar(string $numberCar = 'Т934ВН50'): array
+    public function sendNewBaseByNumberCar(string $numberCar = ''): array
     {
         $response = $this->client->request(
             'POST',
@@ -54,8 +51,11 @@ class CarService
         );
         //        $statusCode = $response->getStatusCode();
         //        $content = $response->getContent();
-        $content = $response->toArray();
+        return $response->toArray();
+    }
 
-        return $content;
+    public function saveNewBaseByNumberCar(array $car = [], array $info = [])
+    {
+        $this->carRepository->saveCarInfo($car, $info);
     }
 }

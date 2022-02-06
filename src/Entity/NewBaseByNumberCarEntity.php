@@ -1,13 +1,14 @@
 <?php
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+//use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="log_number_car")
  * @ORM\HasLifecycleCallbacks()
  */
-class NewBaseByNumberCar implements \JsonSerializable {
+class NewBaseByNumberCarEntity implements \JsonSerializable {
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -17,28 +18,22 @@ class NewBaseByNumberCar implements \JsonSerializable {
 
     /**
      * Входящие данные ( гос номер)
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100 , nullable=true)
      *
      */
     private ?string $numberCar = null;
 
     /**
      * Входящие данные ( гос номер)
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100,nullable=true)
      *
      */
     private ?string $ip = null;
 
-
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true ,  nullable=true)
      */
-     private $respons;
-
-//    /**
-//     * @ORM\Column(type="text")
-//     */
-//    private $respons;
+     private ?array $respons = null;
 
     /**
      * Дата и время запроса | Дата и время ответа на запрос
