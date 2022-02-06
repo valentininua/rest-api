@@ -58,7 +58,8 @@ class ApiController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'status' => 422,
-                'errors' => "Proxy error",
+                'error' => "Proxy error",
+                'info' => $e->getMessage(),
             ], 422);
         }
 

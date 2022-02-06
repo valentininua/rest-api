@@ -30,10 +30,15 @@ class NewBaseByNumberCar implements \JsonSerializable {
     private ?string $ip = null;
 
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+     private $respons;
+
 //    /**
 //     * @ORM\Column(type="text")
 //     */
-//    private $description;
+//    private $respons;
 
     /**
      * Дата и время запроса | Дата и время ответа на запрос
@@ -146,6 +151,22 @@ class NewBaseByNumberCar implements \JsonSerializable {
     public function setIp(?string $ip): void
     {
         $this->ip = $ip;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRespons()
+    {
+        return $this->respons;
+    }
+
+    /**
+     * @param mixed $respons
+     */
+    public function setRespons($respons): void
+    {
+        $this->respons = $respons;
     }
 
     /**
