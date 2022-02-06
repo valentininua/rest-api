@@ -9,19 +9,16 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Repository\NewBaseByNumberCarRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CarService
 {
     private const SERVER = 'http://135.181.116.15';
 
     /**
-     * @param EntityManagerInterface $entityManager
      * @param HttpClientInterface $client
      * @param NewBaseByNumberCarRepository $carRepository
      */
     public function __construct(
-        private EntityManagerInterface       $entityManager,
         private HttpClientInterface          $client,
         private NewBaseByNumberCarRepository $carRepository
     )
@@ -49,8 +46,7 @@ class CarService
                 'json' => ['number_car' => $numberCar],
             ]
         );
-        //        $statusCode = $response->getStatusCode();
-        //        $content = $response->getContent();
+
         return $response->toArray();
     }
 

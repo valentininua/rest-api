@@ -1,7 +1,6 @@
 <?php
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
-//use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -24,7 +23,7 @@ class NewBaseByNumberCarEntity implements \JsonSerializable {
     private ?string $numberCar = null;
 
     /**
-     * Входящие данные ( гос номер)
+     * Входящие данные (гос номер)
      * @ORM\Column(type="string", length=100,nullable=true)
      *
      */
@@ -99,7 +98,7 @@ class NewBaseByNumberCarEntity implements \JsonSerializable {
 
     /**
      * @param \DateTime $create_date
-     * @return Post
+     * @return NewBaseByNumberCarEntity
      */
     public function setCreateDate(\DateTime $create_date): self
     {

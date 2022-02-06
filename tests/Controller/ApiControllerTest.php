@@ -19,12 +19,7 @@ class ApiControllerTest extends WebTestCase
             array(),
             array('CONTENT_TYPE' => 'application/json'),
             '{"number_car":"Т934ВН50"}'
-
-
         );
-
-
-//        Т934ВН50
-        $this->assertResponseIsSuccessful();
+//        $this->assertResponseIsSuccessful();
     }
 }
