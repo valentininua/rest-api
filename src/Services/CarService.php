@@ -24,12 +24,12 @@ class CarService
 
     private const SERVER = 'http://135.181.116.15';
 
-    private HttpClientInterface $client;
-
-    public function __construct(HttpClientInterface $client)
-    {
-        $this->client = $client;
-    }
+    /**
+     * @param HttpClientInterface $client
+     */
+    public function __construct(
+        public HttpClientInterface $client,
+    ) {}
 
     /**
      * @param string $numberCar
@@ -55,8 +55,7 @@ class CarService
         //        $statusCode = $response->getStatusCode();
         //        $content = $response->getContent();
         $content = $response->toArray();
+
         return $content;
-
-
     }
 }

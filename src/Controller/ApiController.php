@@ -25,16 +25,19 @@ use App\Services\CarService;
  */
 class ApiController extends AbstractController
 {
-    private HttpClientInterface $client;
-    private CarService $carService;
-
-    public function __construct(HttpClientInterface $client,CarService $carService)
+    /**
+     * @param HttpClientInterface $client
+     * @param CarService $carService
+     */
+    public function __construct(
+        public HttpClientInterface $client,
+        public CarService          $carService,
+    )
     {
-        $this->client = $client;
-        $this->carService = $carService;
     }
 
     /**
+     * @param Request $request
      * @return JsonResponse
      * @throws ClientExceptionInterface
      * @throws DecodingExceptionInterface
@@ -44,18 +47,19 @@ class ApiController extends AbstractController
      *
      * @Route("/getNewBaseByNumberCar", name="all", methods={"POST|GET"})
      */
-    public function getNewBaseByNumberCar(): JsonResponse
+    public function handler(Request $request): JsonResponse
     {
         try {
-            $data = $this->carService->sendNewBaseByNumberCar('Т934ВН50');
-
-            return new JsonResponse($data);
+            return new JsonResponse(
+                    $this->carService->sendNewBaseByNumberCar(
+                        json_decode($request->getContent(), true)['number_car']
+                )
+            );
         } catch (\Exception $e) {
-            $data = [
+            return new JsonResponse([
                 'status' => 422,
                 'errors' => "Proxy error",
-            ];
-            return new JsonResponse($data, 422);
+            ], 422);
         }
 
     }
