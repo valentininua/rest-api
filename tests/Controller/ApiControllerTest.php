@@ -21,7 +21,6 @@ class ApiControllerTest extends WebTestCase
         //            array(),
         //            '{"number_car":"Т934ВН50"}'
         //        );
-        //        $this->assertEquals(42, 42);
         //        $this->assertResponseIsSuccessful();
     }
 }
